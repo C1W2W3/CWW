@@ -9,44 +9,64 @@
 
 ## docstring: 함수에 대한 설명을 나타내는 문장
 
+
 ## 연습문제1: 입력X, 출력X인 함수
 ## >> 함수를 호출하면 별모양을 그리는 DrawStar_100()
 '''
-import turtle
-<DrawStar_100 함수 정의>
+import turtle as t
+def DrawStar_100():
+    """
+    한 변의 길이가 100인 별을 그리는 함수
+    """
+    for i in range(5):
+        t.forward(100)
+        t.right(144)
+        t.forward(100)
+        t.left(72)
 
-win = turtle.Screen()
-<DrawStart_100 함소 호출>
+win = t.Screen()
+DrawStar_100()
 win.mainloop()
 '''
 ## 연습문제2: 입력O, 출력X인 함수
 ## >> 한 변의 길이를 입력하면, 그 한변의 길이를 가지는 별을 그리는 DrawStar()
 '''
-import turtle
-<DrawStar() 함수 정의해주기> 
+import turtle as t
+def DrawStar(length):
+    """
+    한 변의 길이가 length인 별을 그리는 함수
+    """
+    for i in range(5):
+        t.forward(length)
+        t.right(144)
+        t.forward(length)
+        t.left(72)
 
-win = turtle.Screen()
-DrawStar(200)
+win = t.Screen()
+DrawStar(1)
 win.mainloop()
 '''
+
 ## 연습문제3: 입력X, 출력O인 함수
 ## >> 1~100까지 랜덤한 정수 1개를 반환하는 getRandomNum()
 '''
 import random
-<getRandomNum() 함수 정의해주기>
+def getRandomNum():
+    return random.randint(1, 100)
 
-<getRandomNum() 함수를 호출하여 반환값을 num 변수에 할당하기>
+num = getRandomNum()
 print(num)
+print(getRandomNum())
 '''
 ## 연습문제4: 입력O, 출력O인 함수
 ## >> a,b를 입력하면 두 수의 합을 반환하는 add()
 '''
-<add() 함수 정의해주기>
+def add(a, b):
+    return a+b
 
-<add() 함수를 호출하여 반환값을 X 에 할당하기 >
+X = add(int(input()), int(input()))
 print(X)
 '''
-
 ## 함수 Mission: 앞서 반복문 Mission4에서 그린 무지개를 "함수"로 만들어보자
 ## 조건은 ppt 30p - 함수 Mission 참고
 '''

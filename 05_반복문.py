@@ -48,21 +48,43 @@ while i<5:
     i += 1
 print("반갑습니다")
 '''
+
+
 ## while문 연습문제2: 무한루프와 break를 활용하여 게임 시작메뉴를 만들어보자
-
-
+'''
+select = 0
+while True:
+    select = int(input("1. 게임 시작// 2. 나가기"))
+    if select == 2:
+        break
+'''
 ## while문 연습문제3: continue
 ## : continue 문을 활용하여 1~10까지 숫자 중 홀수만 출력하는 프로그램 작성
-
+'''
+for i in range(1, 11):
+    if i % 2 == 0:
+        continue
+    print(i)
+'''
 
 ## 반복문 mission1-1: 원하는 단의 구구단만 출력하기
 ## for 반복문을 활용하여 출력을 원하는 구구단의 단 수를 입력받고, 1~9까지 곱한 구구단 출력하기
-
+'''
+n = int(input("구구단의 단 수를 입력해주세요>>"))
+for i in range(1, 10):
+    print(f"{n} * {i} = {n*i}")
+'''
 
 ## 반복문 mission1-2: 2~9단 모두 출력하기
 ## for 반복문을 활용하여, 2단~9단까지 모두 출력하기
-
-
+'''
+print("[구구단 전체 출력]")
+for i in range(2, 10):
+    print(f"[{i}단]")
+    for j in range(1, 10):
+        print(f"{i} * {j} = {i*j}")
+    print("-----------")
+'''
 ## 반복문 mission2-1: while문을 활용하여 반복문 mission1-1과 같은 결과를 출력해보자
 
 
@@ -78,11 +100,35 @@ print("반갑습니다")
 
 
 ## 반복문 mission4-1: turtle을 활용한 미디어아트1
+'''
+import turtle as t
+
+color = ['red', 'green', 'blue']
+t.bgcolor('black')
+t.pencolor('green')
+t.speed(0)
+for i in range(301):
+    t.forward(i*2)
+    t.right(89)
+
+t.mainloop()
 
 
+'''
 ## 반복문 mission4-2: turtle을 활용한 미디어아트1
+'''
+import turtle as t
 
+n = 120
+t.bgcolor('black')
+t.pencolor('cyan')
+t.speed(0)
+for i in range(n):
+    t.circle(100)
+    t.left(360/n)
 
+t.mainloop()
+'''
 ## 반복문 mission5-1: turtle을 활용한 미디어아트2
 
 
@@ -101,6 +147,12 @@ print("반갑습니다")
 ## 반복문 추가문제 Mission2:  ASCII 코드를 활용한 슬록머신
 
 
+'''
+for i in range(1,6):
+    for j in range(i):
+        print("*", end='')
+    print("")
+'''
 ## 반복문 추가문제 Mission3: turtle 모듈을 활용하여 무지개 만들기
 ### for 반복문 Mission2: turtle 모듈을 활용하여 무지개 만들기
 
