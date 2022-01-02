@@ -114,9 +114,22 @@ print(d.__dir__())
 ## class Mission1
 ## : Mission에 언급된 내용대로 Cat class를 만들어 보자
 '''
-<Cat class 만들기!>
-'''
+class Cat:
+    def cry(self):
+        print("야옹!")
+    def tail_wag(self):
+        print("야옹! 야옹!")
+    def translate_cry(self):
+        print("하찮은 닝겐! 밥을 대령하라!")
+    def translate_tw(self):
+        print("핸드폰을 떨구자!")
 
+Takealook = Cat()
+Takealook.cry()
+Takealook.tail_wag()
+Takealook.translate_cry()
+Takealook.translate_tw()
+'''
 
 # <class(2): 생성자와 상속>
 ## <생성자>
@@ -130,17 +143,42 @@ print(d.__dir__())
 ## step1) 가장 기본적인 Monster 클래스를 만들어 보자
 ##        : say 메서드만을 가지는 Monster 클래스
 '''
-<Moster class 만들기>
+# <Moster class 만들기>
+class Monster:
+    def __init__(self, name , attack, health, speed):
+        self.name = name
+        self.attack = attack
+        self.health = health
+        self.speed = speed
+        print(f"나는 아주아주 무서운 {self.name}이다")
+    def say(self):
+        print("나는 아주아주 무서운 몬스터다!!!")
+    def decrease_health(self,num):
+        self.health -= num
+    def get_health(self):
+        return self.health
+    def info(self):
+        print(f"[{self.name} 스테이터스]")
+        print(f"공격력: {self.attack}")
+        print(f"체력: {self.health}")
+        print(f"이속: {self.speed}")
 
-<Monster 객체 생성 및 say 메서드 호출하기>
+#<Monster 객체 생성 및 say 메서드 호출하기>
+goblin = Monster('고블린', 10, 100, 5)
+wolf = Monster('늑대', 20, 150, 10)
+
+
+goblin.info()
+goblin.decrease_health(20)
+print(f'고블린 체력: {goblin.get_health()}')
+print()
+goblin.info()
 '''
 ## step2) Monster 클래스에 속성(name, health, attack, speed)을 추가하여 초기화해보자.
 ##        또한, 인스턴스 생성 시에 say의 내용이 출력되도록 만들어보자.
-'''
-<step1)에서의 Monster class 생성자의 속성 추가>
 
-<goblin 객체 만들기(Monster 객체)>
-'''
+
+
 
 ## step3) Monster 클래스에 메서드(decrease_health, get_health, info)를 추가한 후,
 ##        goblin과 wolf 객체를 생성하여 각 메서드들을 호출해보자.
@@ -164,19 +202,38 @@ print(d.__dir__())
 ## - 속성: name, health, attack
 ## - 메서드: move("self.name 지상에서 이동하기"를 출력하는 메서드, 이후 해당 몬스터의 이동방법이 출력되도록 할 것임.)
 '''
-<Monster class 작성하기>
-'''
+class Monster:
+    def __init__(self, name, health, attack):
+        self.name = name
+        self.health = health
+        self.attack = attack
+    def move(self):
+        print(f'{self.name}뛰어다니기')
 
+'''
 ## step2) 자식 클래스: Wolf, Shark, Dragon
 ## - Monster 클래스를 상속 받을 것.
 ## - 몬스터의 속성에 맞게 move를 메서드 오버라이딩할 것.
 '''
-<Moster class를 상속받은 Wolf, Shark, Dragon class 작성하기>
+class Wolf(Monster):
+    pass
 
-<각 class들로 객체 만든 후, move 메서드 호출하기>
+class Shark(Monster):
+    def move(self):
+        print(f"{self.name} 헤엄치기")
+
+class Dragon(Monster):
+    def move(self):
+        print(f"{self.name} 날기")
+
+wolf = Wolf('늑대', 100, 50)
+shark = Shark('아기상어', 300, 300)
+dragon = Dragon('투슬리스', 1000, 500)
+
+wolf.move()
+shark.move()
+dragon.move()
 '''
-
-
 # <class(3): super()와 클래스 변수>
 ## super(): 부모클래스의 메서드들의 내용들을 그대로 가져와  자식 클래스 추가하고 싶은 경우에 사용하는 명령
 ## 클래스변수: 해당 클래스로 만든 모든 객체들이 공유하는 변수
@@ -185,18 +242,20 @@ print(d.__dir__())
 ## : ‘상속 및 메서드 오버라이딩 연습문제’에서 만들었던 내용들을 업데이트해보자
 ## - 드래곤 클래스에 ‘인스턴스 속성’으로 ‘3개의 스킬(불뿜기, 꼬리치기, 날개치기)’을 추가
 ## - 드래곤이 스킬을 쓰면 속성 중 하나가 무작위로 사용되도록 설정(random 모듈 이용)
-'''
+
 import random
 
 class Monster:
-    number = 1000
+    Monster_num = 1000
     def __init__(self, name, health, attack):
         self.name = name
         self.health = health
         self.attack = attack
-        Monster.number -= 1
+        Monster.Monster_num -= 1
+        print("생성가능 몬스터 수: " ,Monster.Monster_num)
+
     def move(self):
-        print(f"{self.name} 지상에서 이동하기")
+        print(f'{self.name}뛰어다니기')
 
 class Wolf(Monster):
     pass
@@ -208,28 +267,22 @@ class Shark(Monster):
 class Dragon(Monster):
     def __init__(self, name, health, attack):
         super().__init__(name, health, attack)
-        self.skills = ['불뿜기', '꼬리치기', '날개치기']
+        self.skills = '불뿜기', '헬파이어', '꼬리치기'
+
     def move(self):
         print(f"{self.name} 날기")
     def skill(self):
-        print(f'스킬 {self.skills[random.randint(0,2)]}을(를) 사용했다.')
+        print(f'{self.name}가 {self.skills[random.randint(0,2)]}을(를)사용했다!')
 
-# 객체 생성 및 매서드 실행해보기
 wolf = Wolf('늑대', 100, 50)
+shark = Shark('아기상어', 300, 300)
+dragon = Dragon('투슬리스', 1000, 500)
+
 wolf.move()
-print(wolf.number)
-
-shark = Shark('아이상어', 500, 150)
 shark.move()
-print(shark.number)
-
-dragon = Dragon('G-드래곤', 1000, 500)
 dragon.move()
+
 dragon.skill()
-dragon.skill()
-dragon.skill()
-print(dragon.number)
-'''
 
 ## class Mission: 아이템 구성안과 설계도를 활용하여, class와 객체를 생성해 보자
 ## 이때, 부모 클래스: Item // 자식 클래스: WearableItem, UsableItem 이다.
