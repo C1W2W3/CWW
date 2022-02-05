@@ -9,6 +9,7 @@
 '''
 
 # Problem 1: 더하기 사이클
+'''
 import copy
 
 N = int(input())
@@ -25,11 +26,52 @@ while True:
         break
 
 print(count)
-# Problem 2: 평균은 넘겠지
+'''
 
+# Problem 2: 평균은 넘겠지
+'''
+C = int(input())
+N = []
+scores = []
+result = []
+
+for i in range(C):
+    temp = list(map(int, input().split()))
+    N.append(temp[0])
+    scores.append(temp[1:])
+
+for i in range(C):
+
+    avg = sum(scores[i]) / N[i]
+    count = 0
+    for score in scores[i]:
+        if score > avg:
+            count += 1
+    percent = count / N[i] * 100
+    result.append(percent) ##= (count / N[i]) * 100
+
+for i in result:
+    print(f"{i:.3f}%")
+'''
 
 # Problem 3: 셀프 넘버
 
+import copy
+
+N = 10000
+numbers = [True] * (N+1)
+
+def d(n):
+    temp = n + sum(list(map(int, list(str(n)))))
+    if temp <= N:
+        numbers[temp] = False
+
+for i in range(1, N+1):
+    d(i)
+
+for i in range(1, N+1):
+    if numbers[i] == True:
+        print(i)
 
 # 추가 문제: ACM 호텔
 
