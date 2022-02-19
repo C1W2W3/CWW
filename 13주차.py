@@ -3,7 +3,7 @@ for i in range(1, 10):
     for j in range(1, 10):
         print(f" {i} * {j}= ", i * j)
 '''
-
+'''
 
 m = int(input())
 dr = int(input())
@@ -34,7 +34,7 @@ for N in num:
             prime_num += 1
 
 print(prime_num)
-'''
+
 
 '''
 n = int(input())
