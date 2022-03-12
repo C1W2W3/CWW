@@ -1,7 +1,9 @@
 # 주제 : Galaga Game
 
 # 필요 라이브러리 import
-
+from tkinter *
+import sys
+import pygame
 
 # <class Sprite>
 # : 게임의 스프라이트를 나타내는 클래스로 공통적으로 사용되는 변수와 메소드를 가지고 있다.
@@ -145,126 +147,134 @@ class StarShipSprite(Sprite):
 
 # <class AlienSprite>
 # : 외계인 우주선을 나타내 는 클래스
-
+class AlienSprite(Sprite):
 # class AlienSprite 만들기
     # AlienSprite 생성자(__init__())
+    def __init__(self, game, img, x, y):
+        super().__init__(img, x, y)
+        self.game = game
+        self.dx = -10
 
-
-
+    def move(self):
+        if (self.dx < 0 and self.x < 10) or (self.dx > 0 and self.x > 725):
+            self.y += 50
+            self.dx *= -1
+            if self.y > 600:
+                self.game.endGame()
+            super().move()
+        super().move()
 
     # 외계인 우주선을 움직이는 메소드(윈도우의 경계에 도달하면 한 칸 아래로 이동한다.)(move())
-    
-    
-
-
-
-
-
-
-
 
 # <class ShotSprite>
 # : 포탄을 나타내는 클래스
-
+class ShotSprite(Sprite):
 # class ShotSprite 만들기
     # ShotSprite 생성자(__init__())
-        
-        
-
-
-
-
-
+    def __init__(self, game, img, x, y):
+        super().__init__(img, x, y)
+        self.game = game
+        self.dy = -20
+        self.hit_sound = pygame.mixer.Sound('./sound/hit_sound.mp3')
+        self.shot_sound = pygame.mixer.Sound('./sound/shot_sound.mp3')
+        self.shot_sound.play()
 
     # 화면을 벗어나면 객체를 리스트에서 삭제한다.(move())
-
-
-
-
+    def move(self):
+        super().move()
+        if self.y < -50:
+            self.game.removeSprite(self)
 
     # 충돌을 처리한다. 포탄과 외계인 우주선 객체를 모두 리스트에서 삭제한다.(handleCollision())
-   
-   
-
+    def handleCollision(self, other):
+        if type(other) == AlienSprite:
+            self.hit_sound.play()
+            self.game.removeSprite(self)
+            self.game.removeSprite(other)
 
 
 
 # <class GalagaGame>
 # 갤러그 게임을 나타내는 클래스
-
+class GalagaGame():
 # class GalagaGame 만들기
     # "이벤트" 관련 매서드들
     ## ↑ 화살표 키 이벤트 처리(keyUp())
-    
-    
-
+    def keyUp(self, event):
+        self.starship.setDy(-10)
 
     ## ↓ 화살표 키 이벤트 처리(keyDown())
-    
-
+    def keyDown(self, event):
+        self.starship.setDy(+10)
 
     ## → 화살표 키 이벤트 처리(keyLeft())
-    
-    
+    def keyRight(self, event):
+        self.starship.setDx(-10)
 
     ## ← 화살표 키 이벤트 처리(keyRight())
-   
-
+    def keyLeft(self, event):
+        self.starship.setDx(+10)
 
     ## 스페이스 키 이벤트를 처리(keySpace())
-    
-    
+    def keySpace(self, event):
+        self.fire()
 
     ## ESC 키 이벤트를 처리(keyESC())
-
+    def keyESC(self, event):
+        self.master.destroy()
 
 
     # initSprites 메서드: 게임에 필요한 스프라이트를 생성(initSprites())
-    
-    
-
-
-
-
-
+    def initSprites(self):
+        self.starship = StarShipSprite(self, self.shipImage, 370, 520)
+        self.sprites.append(self.starship)
+        for y in range(0, 2):
+            for x in range(0, 12):
+                alien = AlienSprite(self, self.alienImage, 100+x*50, 50+y*30)
+                self.sprites.append(alien)
 
     # __init__(): 생성자 메서드
-        
-        
+    def __init__(self, master):
+        self.master = master
+        self.sprites = []
+        self.canvas = Canvas(master, width = 800, height = 600)
+        self.canvas.pack()
+        self.shotImage = PhotoImage(file = "./image/fire.png")
+        self.shipImage = PhotoImage(file="./image/starship.png")
+        self.shotImage = PhotoImage(file="./image/alien.png")
+        self.running = True
+        self.initSprites()
 
-
-
-
-
-
-
-
-
-
+        master.bind("<Up>", self.keyUp)
+        master.bind("<Down>", self.keyDown)
+        master.bind("<Right>", self.keyRight)
+        master.bind("<Left>", self.keyLeft)
+        master.bind("<space>", self.keySpace)
+        master.bind("<Escape>", self.keyESC)
+        master.bind("Return", self.startGame)
+        self.shot_sound = pygame.mixer.Sound('./sound/shot_sound.mp3')
+        self.start_sound = pygame.mixer.Sound('./sound/start_sound.mp3')
 
     # startGame() 메서드: 게임시작 메서드(Enter키의 이벤트 핸들러)
-    
-    
-
-
-
+    def startGame(self, event):
+        self.sprites.clear()
+        self.initSprites()
+        self.start_sound.play()
 
     # endGame() 메서드: 게임 종료(Game Over의 조건을 충족했을 때 실행되는 메서드)
-    
-    
-
-
-
+    def endGame(self):
+        self.running = False
+        sys.exit()
 
     # removeSprite() 메서드: 스프라이트를 리스트에서 삭제
-    
-    
-
-
-
+    def removeSprite(self, sprite):
+        if(sprite in self.sprites):
+            self.sprites.remove(sprite)
+            del sprite
 
     # fire() 메서드: 포탄 발사
-    
+    def fire(self):
+        shot = ShotSprite(self, self.shotImage, self.starship.getX()=28, self.starship.getY()-30)
     
 
 
